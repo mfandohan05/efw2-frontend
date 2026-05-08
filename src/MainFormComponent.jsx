@@ -136,7 +136,10 @@ export default function MainFormComponent() {
         try {
             const res = await fetch("http://localhost:3000/generate-efw2", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "x-api-key": import.meta.env.VITE_API_KEY
+                },
                 body: JSON.stringify({ raData, reData, rwData, rsData })
             });
             const text = await res.text();
@@ -151,7 +154,10 @@ export default function MainFormComponent() {
         try {
             const res = await fetch("http://localhost:3000/generate-pdfs", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "x-api-key": import.meta.env.VITE_API_KEY
+                },
                 body: JSON.stringify({ rwData, rsData, reData })
             });
             const blob = await res.blob();

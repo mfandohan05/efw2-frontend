@@ -1,16 +1,49 @@
-# React + Vite
+# EFW2 Generation Tool
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A desktop application for generating IRS EFW2 (W-2) files and employee W-2 PDFs. Built for Livi Home Care to streamline their annual tax filing workflow.
 
-Currently, two official plugins are available:
+## What It Does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Upload an employee wage spreadsheet (`.xlsx`) to populate W-2 data
+- Fill in employer and submitter information via a guided form
+- Generate a properly formatted **EFW2 file** ready for SSA submission
+- Generate **individual W-2 PDFs** (Copy B, C, and 2) for each employee, packaged as a ZIP
 
-## React Compiler
+All file generation is handled server-side via a private API, keeping business logic secure and ensuring the desktop app always stays up to date without requiring reinstallation.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- **Electron** — cross-platform desktop app
+- **React + Vite** — UI framework and build tool
+- **SheetJS (xlsx)** — client-side Excel parsing
+- **REST API** — private backend handles EFW2 compilation and PDF generation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Running Locally
+
+### Prerequisites
+
+- Node.js 18+
+- The backend API running locally or deployed (not included in this repo)
+
+### Setup
+
+```bash
+# Install dependencies
+npm install
+
+# Start the Vite dev server
+npm run dev
+
+# In a separate terminal, launch the Electron app
+npm run electron
+```
+
+By default the app points to `http://localhost:3000` for API calls. Update the fetch URLs in `MainFormComponent.jsx` if your backend is running on a different port or deployed remotely.
+
+### Building
+
+```bash
+npm run build
+```
+
+This generates the production build in `dist/`, which Electron loads when packaged.
