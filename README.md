@@ -1,6 +1,6 @@
 # EFW2 Generation Tool
 
-A desktop application for generating IRS EFW2 (W-2) files and employee W-2 PDFs. Built for Livi Home Care to streamline their annual tax filing workflow.
+A desktop application for generating IRS EFW2 (W-2) files and employee W-2 PDFs. Built for small businesses to streamline their annual tax filing workflow. Packaged as a native desktop app using Electron.
 
 ## What It Does
 
@@ -38,7 +38,13 @@ npm run dev
 npm run electron
 ```
 
-By default the app points to `http://localhost:3000` for API calls. Update the fetch URLs in `MainFormComponent.jsx` if your backend is running on a different port or deployed remotely.
+The app communicates with a deployed private API. All requests are authenticated via an API key passed in the `x-api-key` request header. To run locally, create a `.env` file in the project root:
+
+```
+VITE_API_KEY=your-api-key-here
+```
+
+API keys are not provided in this repository.
 
 ### Building
 

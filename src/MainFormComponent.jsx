@@ -134,7 +134,7 @@ export default function MainFormComponent() {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await fetch("http://localhost:3000/generate-efw2", {
+            const res = await fetch("https://efw2-backend.onrender.com/generate-efw2", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
@@ -142,8 +142,15 @@ export default function MainFormComponent() {
                 },
                 body: JSON.stringify({ raData, reData, rwData, rsData })
             });
+            if (!res.ok) {
+                throw new Error(`Request Failed: ${res.status}`);
+            }
             const text = await res.text();
             downloadTextFile(text, "efw2-file.txt");
+        }
+        catch (err) {
+            window.alert("An error occurred while generating your PDFs. Please try again later.");
+            console.log(err);
         }
         finally {
             setLoading(false);
@@ -152,7 +159,7 @@ export default function MainFormComponent() {
     async function handleDownloadPDFs() {
         setGenerating(true);
         try {
-            const res = await fetch("http://localhost:3000/generate-pdfs", {
+            const res = await fetch("https://efw2-backend.onrender.com/generate-pdfs", {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
@@ -160,6 +167,9 @@ export default function MainFormComponent() {
                 },
                 body: JSON.stringify({ rwData, rsData, reData })
             });
+            if (!res.ok) {
+                throw new Error(`Request Failed: ${res.status}`);
+            }
             const blob = await res.blob();
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
@@ -167,6 +177,10 @@ export default function MainFormComponent() {
             a.download = "w2-pdfs.zip";
             a.click();
             URL.revokeObjectURL(url);
+        }
+        catch (err) {
+            window.alert("An error occurred while generating your PDFs. Please try again later.");
+            console.log(err);
         }
         finally {
             setGenerating(false);
